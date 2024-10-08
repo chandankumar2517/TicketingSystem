@@ -32,5 +32,5 @@ The **TicketingSystem** connects users from Source to Destination via train. Thi
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/chandankumar2517/TicketingSystem.git
+   git clone [https://github.com/chandankumar2517/TicketingSystem.git](https://github.com/chandankumar2517/TicketingSystem.git)
    cd TicketingSystem
