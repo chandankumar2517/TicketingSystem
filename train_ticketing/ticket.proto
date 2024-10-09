@@ -39,3 +39,30 @@ message Receipt {
 message ReceiptRequest {
     string email = 1;
 }
+
+// e.g., "A" or "B"
+message SectionRequest {
+    string section = 1; 
+}
+
+message UserList {
+    repeated UserSeatInfo user_seats = 1;
+}
+
+message UserSeatInfo {
+    User user = 1;
+    string seat = 2;
+}
+
+message RemoveRequest {
+    string email = 1;
+}
+
+message ModifyRequest {
+    string email = 1;
+    string new_seat = 2;
+}
+
+message Response {
+    string message = 1;
+}
