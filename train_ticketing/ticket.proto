@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package ticket;
+
+// Go package for the generated code
+option go_package = "/train_ticketing;ticket";
+
+// Service definition
+service TicketService {
+    rpc PurchaseTicket(PurchaseRequest) returns (Receipt) {}
+    rpc GetReceipt(ReceiptRequest) returns (Receipt) {}
+    rpc GetAllocatedUsers(SectionRequest) returns (UserList) {}
+    rpc RemoveUser(RemoveRequest) returns (Response) {}
+    rpc ModifySeat(ModifyRequest) returns (Response) {}
+}
+
+// Messages
+message PurchaseRequest {
+    string from = 1;
+    string to = 2;
+    User user = 3;
+    float price_paid = 4;
+}
+
+message User {
+    string first_name = 1;
+    string last_name = 2;
+    string email = 3;
+}
+
+message Receipt {
+    string from = 1;
+    string to = 2;
+    User user = 3;
+    float price_paid = 4;
+    string seat = 5;
+}
+
+message ReceiptRequest {
+    string email = 1;
+}
