@@ -81,6 +81,91 @@ func (s *server) GetReceipt(ctx context.Context, req *pb.ReceiptRequest) (*pb.Re
 	return &receipt, nil
 }
 
+// GetAllocatedUsers returns users and their seats for a requested section
+func (s *server) GetAllocatedUsers(ctx context.Context, req *pb.SectionRequest) (*pb.UserList, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	var users []*pb.UserSeatInfo
+	switch req.Section {
+	case "A":
+		for i, email := range s.seatA {
+			receipt := s.users[email]
+			users = append(users, &pb.UserSeatInfo{
+				User: receipt.User,
+				Seat: fmt.Sprintf("A%d", i+1),
+			})
+		}
+	case "B":
+		for i, email := range s.seatB {
+			receipt := s.users[email]
+			users = append(users, &pb.UserSeatInfo{
+				User: receipt.User,
+				Seat: fmt.Sprintf("B%d", i+1),
+			})
+		}
+	default:
+		return nil, errors.New("invalid section")
+	}
+
+	return &pb.UserList{UserSeats: users}, nil
+}
+
+// RemoveUser removes a user from the train system
+func (s *server) RemoveUser(ctx context.Context, req *pb.RemoveRequest) (*pb.Response, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	receipt, exists := s.users[req.Email]
+	if !exists {
+		return nil, errors.New("user not found")
+	}
+
+	// Remove seat assignment
+	if receipt.Seat[0] == 'A' {
+		s.removeSeat(s.seatA, req.Email)
+	} else if receipt.Seat[0] == 'B' {
+		s.removeSeat(s.seatB, req.Email)
+	}
+
+	delete(s.users, req.Email)
+	return &pb.Response{Message: "User removed successfully."}, nil
+}
+
+// ModifySeat modifies the seat of an existing user
+func (s *server) ModifySeat(ctx context.Context, req *pb.ModifyRequest) (*pb.Response, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	receipt, exists := s.users[req.Email]
+	if !exists {
+		return nil, errors.New("user not found")
+	}
+
+	// Remove current seat assignment
+	if receipt.Seat[0] == 'A' {
+		s.removeSeat(s.seatA, req.Email)
+	} else if receipt.Seat[0] == 'B' {
+		s.removeSeat(s.seatB, req.Email)
+	}
+
+	// Reassign seat
+	receipt.Seat = req.NewSeat
+	s.users[req.Email] = receipt
+
+	return &pb.Response{Message: "Seat modified successfully."}, nil
+}
+
+// Utility function to remove a seat
+func (s *server) removeSeat(seats []string, email string) {
+	for i, e := range seats {
+		if e == email {
+			seats = append(seats[:i], seats[i+1:]...)
+			break
+		}
+	}
+}
+
 func main() {
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
