@@ -9,7 +9,7 @@ The **TicketingSystem** connects users from Source to Destination via train. Thi
 
 ### Features
 
-- Submit a ticket purchase with user details and seat allocation.
+- Submit a ticket purchase with user details.
 - Retrieve receipt details for purchased tickets.
 - View users and their allocated seats by section.
 - Remove a user from the train system.
@@ -32,5 +32,9 @@ The **TicketingSystem** connects users from Source to Destination via train. Thi
 
 1. **Clone the Repository**:
    ```bash
-   git clone [https://github.com/chandankumar2517/TicketingSystem.git](https://github.com/chandankumar2517/TicketingSystem.git)
+   git clone [https://github.com/chandankumar2517/TicketingSystem.git]
    cd TicketingSystem
+
+2. **To Generate Proto Files**:
+     ```bash
+     protoc --go_out=. --go-grpc_out=. <your file name>/ticket.proto
