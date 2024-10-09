@@ -1,0 +1,102 @@
+
+Purchase Ticket
+
+Request
+{
+  "from": "London",
+  "to": "France",
+  "user": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "johndoe@example.com"
+  },
+  "price_paid": 20.0
+}
+
+
+Response 
+{
+  "from": "London",
+  "to": "France",
+  "user": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "johndoe@example.com"
+  },
+  "price_paid": 20.0,
+  "seat": "A1"
+}
+
+
+GetReceipt 	
+
+Request
+
+{
+  "email": "johndoe@example.com"
+}
+
+Response
+
+{
+  "from": "London",
+  "to": "France",
+  "user": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "johndoe@example.com"
+  },
+  "price_paid": 20.0,
+  "seat": "A1"
+}
+
+
+GetAllocatedUsers
+
+{
+  "section": "A"
+}
+
+Response
+
+{
+  "user_seats": [
+    {
+      "user": {
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "johndoe@example.com"
+      },
+      "seat": "A1"
+    }
+  ]
+}
+
+
+RemoveUser
+
+
+{
+  "email": "johndoe@example.com"
+}
+
+Response
+
+{
+  "message": "User removed successfully."
+}
+
+
+
+ModifySeat
+
+{
+  "email": "johndoe@example.com",
+  "new_seat": "B1"
+}
+
+Response 
+
+{
+  "message": "Seat modified successfully."
+}
