@@ -68,6 +68,19 @@ func (s *server) PurchaseTicket(ctx context.Context, req *pb.PurchaseRequest) (*
 	return receipt, nil
 }
 
+// GetReceipt returns the receipt for a user by email
+func (s *server) GetReceipt(ctx context.Context, req *pb.ReceiptRequest) (*pb.Receipt, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	receipt, exists := s.users[req.Email]
+	if !exists {
+		return nil, errors.New("receipt not found for user")
+	}
+
+	return &receipt, nil
+}
+
 func main() {
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
