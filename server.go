@@ -14,8 +14,8 @@ import (
 )
 
 const (
-	seatLimitA = 5 // Seat capacity for section A
-	seatLimitB = 5 // Seat capacity for section B
+	seatLimitA = 2 // Seat capacity for section A
+	seatLimitB = 2 // Seat capacity for section B
 )
 
 type server struct {
@@ -252,47 +252,6 @@ func (s *server) vacateSeat(seats []string, email string) {
 	for i, e := range seats {
 		if e == email {
 			seats[i] = "" // Mark the seat as vacant
-			break
-		}
-	}
-}
-
-// Utility function to vacate the current seat and move the user to the new seat in the same section
-func (s *server) vacateSeatAndMoveToNewSeat(seats []string, email string, newSeatIndex int, newSeat string) []string {
-	// Vacate the user's current seat
-	for i, e := range seats {
-		if e == email {
-			seats[i] = "" // Mark seat as vacant
-			break
-		}
-	}
-
-	// Assign the user to the new seat
-	if newSeatIndex != -1 {
-		seats[newSeatIndex] = email // Reuse a vacant seat if available
-	} else {
-		// If no specific seat is mentioned, append the user to the seat list
-		seats = append(seats, email)
-	}
-
-	return seats
-}
-
-// Utility function to check if a seat is already taken
-func (s *server) isSeatTaken(seats []string, email string) bool {
-	for _, e := range seats {
-		if e == email {
-			return true
-		}
-	}
-	return false
-}
-
-// Utility function to mark a seat as vacant without rearranging
-func (s *server) removeSeat(seats []string, email string) {
-	for i, e := range seats {
-		if e == email {
-			seats[i] = "" // Mark seat as vacant instead of removing it
 			break
 		}
 	}
