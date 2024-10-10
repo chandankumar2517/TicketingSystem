@@ -14,8 +14,8 @@ import (
 )
 
 const (
-	seatLimitA = 2 // Seat capacity for section A
-	seatLimitB = 2 // Seat capacity for section B
+	seatLimitA = 5 // Seat capacity for section A
+	seatLimitB = 5 // Seat capacity for section B
 )
 
 type server struct {
@@ -34,39 +34,6 @@ func NewServer() *server {
 		seatB: []string{},
 	}
 }
-
-// PurchaseTicket allocates a seat and returns a receipt
-/*func (s *server) PurchaseTicket(ctx context.Context, req *pb.PurchaseRequest) (*pb.Receipt, error) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	if _, exists := s.users[req.User.Email]; exists {
-		return nil, errors.New("user already purchased a ticket")
-	}
-
-	// Allocate seat
-	var seat string
-	if len(s.seatA) < seatLimitA {
-		seat = fmt.Sprintf("A%d", len(s.seatA)+1)
-		s.seatA = append(s.seatA, req.User.Email)
-	} else if len(s.seatB) < seatLimitB {
-		seat = fmt.Sprintf("B%d", len(s.seatB)+1)
-		s.seatB = append(s.seatB, req.User.Email)
-	} else {
-		return nil, errors.New("no seats available")
-	}
-
-	receipt := &pb.Receipt{
-		From:      req.From,
-		To:        req.To,
-		User:      req.User,
-		PricePaid: req.PricePaid,
-		Seat:      seat,
-	}
-	s.users[req.User.Email] = *receipt
-
-	return receipt, nil
-}*/
 
 // PurchaseTicket allocates a seat and returns a receipt
 func (s *server) PurchaseTicket(ctx context.Context, req *pb.PurchaseRequest) (*pb.Receipt, error) {
