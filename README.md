@@ -25,7 +25,7 @@ The **TicketingSystem** connects users from Source to Destination via train. Thi
 
 ### Prerequisites
 
-- Go (version 1.16 or later)
+- Go (version 1.20 or later)
 - Protocol Buffers (protoc)
 
 ### Setup
